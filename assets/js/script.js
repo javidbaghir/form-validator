@@ -15,19 +15,34 @@ form.addEventListener('submit', function (e) {
 })
 
 function setError (element, message) {
-    // const inputControl = element.closest("input-control")
-    const inputControl = element.parentElement;
+    const inputControl = element.closest(".input-control")
+    // const inputControl = element.parentElement;
     const errorDisplay = inputControl.querySelector('.error')
 
     errorDisplay.textContent = message
     inputControl.classList.add('error')
+    inputControl.classList.remove('success');
+}
+
+function setSuccess (element) {
+    const inputControl = element.closest(".input-control")
+    // const inputControl = element.parentElement;
+
+    const errorDisplay = inputControl.querySelector('.error')
+
+    errorDisplay.textContent = ""
+    inputControl.classList.remove('error')
+    inputControl.classList.add('success');
 }
 
 const validateEmail = (email) => {
-    return email.match(
-      /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-    );
-  };
+    return String(email)
+      .toLowerCase()
+      .match(
+        /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+      );
+};
+
 function validateInputs() {
     const nameValue = name.value.trim();
     const surnameValue = surname.value.trim();
@@ -36,35 +51,46 @@ function validateInputs() {
     const passValue = pass.value.trim();
     const repeatPassValue = repeatPass.value.trim();
 
-    if(nameValue === "") {
+    if(name.dataset.required === "true") {
         setError(name, "Adınızı daxil edin!")
-    } 
+    } else {
+        setSuccess(name)
+    }
 
-    if (surnameValue === "") {
+    if (surname.dataset.required === "true") {
         setError(surname, "Soyadınızı daxil edin!")
+    } else {
+        setSuccess(surname)
     }
 
-    if (phoneValue === "") {
+    if (phoneValue === "" && phone.dataset.required === "true") {
         setError(phone, "Nömrənizi daxil edin!")
+    } else {
+        setSuccess(phone)
     }
 
-    if (emailValue === "") {
+    if (emailValue === "" && email.dataset.required === "true") {
         setError(email, "Emailinizi daxil edin!")
-    } else if (!validateEmail(email)) {
+    } else if (!validateEmail(emailValue)) {
         setError(email, "Emaili düzgün formatda qeyd edin!")
+    } else {
+        setSuccess(email)
     }
 
-    if (passValue === "") {
+    if (passValue === "" && pass.dataset.required === "true") {
         setError(pass, "Parolunuzu daxil edin!")
     } else if (passValue.length < 8) {
         setError(pass, "Parolunuz 8 simvoldan az ola bilməz!")
+    } else {
+        setSuccess(pass)
     }
 
-    if(repeatPassValue === "") {
+    if(repeatPassValue === "" && repeatPass.dataset.required === "true") {
         setError(repeatPass, "Parolunuzu təkrar daxil edin!")
     }
     else if(repeatPassValue !== passValue) {
         setError(repeatPass, "Parolunuz eyni deyil!")
+    } else {
+        setSuccess(repeatPass)
     }
-
 }
