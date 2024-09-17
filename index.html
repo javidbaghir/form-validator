@@ -4,7 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <link rel="stylesheet" href="./assets/css/output.css"/>
+    <link rel="stylesheet" href="./assets/css/output.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
   </head>
   <body>
     <form id="form">
@@ -14,63 +15,104 @@
         </div>
 
         <div class="py-[20px] px-[17px] space-y-[16px]">
-
-          <div class="input-control">
+         
+            <div class="input-control">
+            
               <label class="font-bold text-[16px]">Name</label>
-              <input data-required="true" id="name"
+              <div>
+              <input
+                data-required="true"
+                data-min="5"
+                id="name"
                 type="text"
                 class="w-full h-[40px] px-2 outline-none rounded mt-[4px] border"
               />
-              <p class="mt-[3px] error"></p>
             </div>
-          
-          <div class="input-control">
-       
-              <label class="font-bold text-[16px]">Surname</label>
-              <input id="surname"
-                type="text"
-                class="w-full h-[40px] px-2 outline-none rounded mt-[4px] border"
-              />
-              <p class="mt-[3px] error"></p>
-            </div>
+            <p class="mt-[3px] error"></p>
+          </div>
 
           <div class="input-control">
         
+              <label class="font-bold text-[16px]">Surname</label>
+              <div>
+              <input
+                id="surname"
+                type="text"
+                data-min="5"
+                class="w-full h-[40px] px-2 outline-none rounded mt-[4px] border"
+              />
+            </div>
+            <p class="mt-[3px] error"></p>
+          </div>
+
+          <div class="input-control">
+      
               <label class="font-bold text-[16px]">Phone</label>
-              <input data-required="true" id="phone"
+              <div>
+              <input
+                data-required="true"
+                id="phone"
                 type="text"
                 class="w-full h-[40px] px-2 outline-none rounded mt-[4px] border"
               />
-              <p class="mt-[3px] error"></p>
             </div>
-            
+            <p class="mt-[3px] error"></p>
+          </div>
 
           <div class="input-control">
+         
               <label class="font-bold text-[16px]">Email</label>
-              <input id="email" data-required="true"
+              <div>
+              <input
+                id="email"
+                data-email="true"
+                data-required="true"
                 type="email"
                 class="w-full h-[40px] px-2 outline-none rounded mt-[4px] border"
               />
-              <p class="mt-[3px] error"></p>
             </div>
+            <p class="mt-[3px] error"></p>
+          </div>
 
           <div class="input-control">
               <label class="font-bold text-[16px]">Password</label>
-              <input data-required="true" id="password" type="password" class="w-full h-[40px] px-2 outline-none rounded mt-[4px] border"/>
-              <p class="mt-[3px] error"></p>
-            </div>
-
-          <div class="input-control">
-              <label class="font-bold text-[16px]">Repeat Password</label>
-              <input data-required="true" id="repeat-password"
+              <div class="flex items-center gap-2">
+              <input
+                data-min="8"
+                data-required="true"
+                name="password"
+                id="password"
                 type="password"
                 class="w-full h-[40px] px-2 outline-none rounded mt-[4px] border"
               />
-              <p class="error mt-[3px]"></p>
+
+              <button id="pass-open" class="size-[30px] text-black"><i class="fa solid fa-eye"></i></button>
             </div>
+            <p class="mt-[3px] error"></p>
+          </div>
 
-          <button type="submit" class="w-full h-[40px] bg-[#f22b2b] mt-10 text-white text-[16px] font-bold rounded">Register</button>
+          <div class="input-control">
+           
+              <label class="font-bold text-[16px]">Repeat Password</label>
+              <div>
+              <input
+                data-min="8"
+                data-some="password"
+                data-required="true"
+                id="repeat-password"
+                type="password"
+                class="w-full h-[40px] px-2 outline-none rounded mt-[4px] border"
+              />
+            </div>
+            <p class="error mt-[3px]"></p>
+          </div>
 
+          <button
+            type="submit"
+            class="w-full h-[40px] bg-[#f22b2b] mt-10 text-white text-[16px] font-bold rounded"
+          >
+            Register
+          </button>
         </div>
       </div>
     </form>

@@ -1,22 +1,39 @@
 const form = document.getElementById('form');
-const name = document.getElementById('name');
-const surname = document.getElementById('surname');
-const phone = document.getElementById('phone');
-const email = document.getElementById('email');
-const pass = document.getElementById('password');
-const repeatPass = document.getElementById('repeat-password');
+const passOpen = document.getElementById('pass-open')
+
 
 form.addEventListener('submit', function (e) {
 
     e.preventDefault()
 
+    for (let el of e.target.elements) {
+       if(el.tagName !== "BUTTON") {
+        
+        const value = el.value;
+        const required = el.dataset.required;
+        const min = el.dataset.min
+        const email = el.dataset.email
+        const some = el.dataset.some
+        const someElement = form.querySelector(`[name="${some}"]`)
 
-    validateInputs()
+        if (!value.trim() && required) {
+            setError(el, "Inputu bos buraxma")
+        } else if(min && value.trim().length < min){
+            setError(el, `Minimum ${min} simvol olmalıdır`)
+        } else if (email && !validateEmail(value)) {
+            setError(el, "Email formatını düzgün qeyd edin!")
+        } else if (someElement && someElement.value !== value) {
+            setError(el, "Şifrələr eyni deyil!")
+        }
+        else {
+            setSuccess(el, "")
+        }
+       }
+    }
 })
 
 function setError (element, message) {
     const inputControl = element.closest(".input-control")
-    // const inputControl = element.parentElement;
     const errorDisplay = inputControl.querySelector('.error')
 
     errorDisplay.textContent = message
@@ -26,7 +43,6 @@ function setError (element, message) {
 
 function setSuccess (element) {
     const inputControl = element.closest(".input-control")
-    // const inputControl = element.parentElement;
 
     const errorDisplay = inputControl.querySelector('.error')
 
@@ -43,54 +59,19 @@ const validateEmail = (email) => {
       );
 };
 
-function validateInputs() {
-    const nameValue = name.value.trim();
-    const surnameValue = surname.value.trim();
-    const phoneValue = phone.value.trim();
-    const emailValue = email.value.trim();
-    const passValue = pass.value.trim();
-    const repeatPassValue = repeatPass.value.trim();
 
-    if(name.dataset.required === "true") {
-        setError(name, "Adınızı daxil edin!")
-    } else {
-        setSuccess(name)
-    }
+passOpen.addEventListener('click', function (e) {
+    const obj = e.target.closest('.input-control')
 
-    if (surname.dataset.required === "true") {
-        setError(surname, "Soyadınızı daxil edin!")
-    } else {
-        setSuccess(surname)
-    }
+    const input = obj.querySelector('input')
 
-    if (phoneValue === "" && phone.dataset.required === "true") {
-        setError(phone, "Nömrənizi daxil edin!")
+    if(input.type === "password") {
+        input.type = 'text'
+        obj.querySelector('i').classList.remove('fa-eye')
+        obj.querySelector('i').classList.add('fa-eye-slash')
     } else {
-        setSuccess(phone)
+        input.type = 'password'
+        obj.querySelector('i').classList.add('fa-eye')
+        obj.querySelector('i').classList.remove('fa-eye-slash')
     }
-
-    if (emailValue === "" && email.dataset.required === "true") {
-        setError(email, "Emailinizi daxil edin!")
-    } else if (!validateEmail(emailValue)) {
-        setError(email, "Emaili düzgün formatda qeyd edin!")
-    } else {
-        setSuccess(email)
-    }
-
-    if (passValue === "" && pass.dataset.required === "true") {
-        setError(pass, "Parolunuzu daxil edin!")
-    } else if (passValue.length < 8) {
-        setError(pass, "Parolunuz 8 simvoldan az ola bilməz!")
-    } else {
-        setSuccess(pass)
-    }
-
-    if(repeatPassValue === "" && repeatPass.dataset.required === "true") {
-        setError(repeatPass, "Parolunuzu təkrar daxil edin!")
-    }
-    else if(repeatPassValue !== passValue) {
-        setError(repeatPass, "Parolunuz eyni deyil!")
-    } else {
-        setSuccess(repeatPass)
-    }
-}
+})
